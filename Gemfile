@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0' # see semver.org
 gem 'rails_admin', '~> 1.3'
+gem 'rails_12factor', group: :production
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
