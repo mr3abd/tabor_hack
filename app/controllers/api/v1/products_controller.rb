@@ -1,7 +1,7 @@
 class Api::V1::ProductsController < ApplicationController
     before_action :user_auth , only: %i[add_cart index checkout]
     def index
-        render json: @user.cart.cart_proucts.as_json(include: :product)
+        render json: {items: @user.cart.cart_proucts.as_json(include: :product) , total: @user.cart.total}
     end
     def show
         @product = Product.find_by(barcode: params[:id])
@@ -29,7 +29,7 @@ class Api::V1::ProductsController < ApplicationController
             item.destroy # Delete  empty cart 
         end
 
-        render json: {checkout: @checkout.as_json(includes: :checkout_products), items: @checkout.checkout_products.as_json(include: :product)}
+        render json: {checkout: @checkout.as_json(methods: :total), items: @checkout.checkout_products.as_json(include: :product)}
         else
         render json: @checkout.errors, status: :unprocessable_entity
         end

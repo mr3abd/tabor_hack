@@ -3,6 +3,10 @@ class Checkout < ApplicationRecord
   has_many :checkout_products
 
   before_validation :has_items
+  def total
+    
+  end
+  # Validate
 
   def has_items
     unless user.cart.cart_proucts.present?
