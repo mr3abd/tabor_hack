@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post 'user', to: 'user/session#create'
       resources :products
       post 'add_cart/:id', to: 'products#add_cart'
+      post 'checkout', to: 'products#checkout'
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
