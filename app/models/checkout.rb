@@ -6,7 +6,7 @@ class Checkout < ApplicationRecord
 
   def has_items
     unless user.cart.cart_proucts.present?
-      
+      errors.add(:base, 'your cart empty now add to cart to checkout ')
     end
   end
 end

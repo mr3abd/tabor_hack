@@ -18,16 +18,20 @@ class Api::V1::ProductsController < ApplicationController
     def checkout
         # Just send token
         # Create New Checkout 
-       @checkout =  Checkout.create(user_id: @user.id )
-       #empty cart
-       @items_cart = @user.cart.cart_proucts
+       @checkout =  Checkout.new(user_id: @user.id )
+        if @checkout.save
+        #empty cart
+        @items_cart = @user.cart.cart_proucts
 
-       @items_cart.each do |item|
-        #Create Checkout Items
-        @checkout_items = CheckoutProduct.create(product_id: item.product.id, checkout_id: @checkout.id, quantity: item.quantity )
-        item.destroy # Delete for empty cart 
-       end
+        @items_cart.each do |item|
+            #Create Checkout Items
+            @checkout_items = CheckoutProduct.create(product_id: item.product.id, checkout_id: @checkout.id, quantity: item.quantity )
+            item.destroy # Delete  empty cart 
+        end
 
-       render json: {checkout: @checkout.as_json(includes: :checkout_products), items: @checkout.checkout_products.as_json(include: :product)}
+        render json: {checkout: @checkout.as_json(includes: :checkout_products), items: @checkout.checkout_products.as_json(include: :product)}
+        else
+        render json: @checkout.errors, status: :unprocessable_entity
+        end
     end
 end
